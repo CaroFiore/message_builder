@@ -1,12 +1,8 @@
 import openpyxl as xl
 import datetime as dt
-from pathlib import Path
 import pyperclip as clipboard
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-
-DATA_DIR = PROJECT_ROOT / "data"
-TAKENROOSTER = DATA_DIR / "takenrooster.xlsx"
+TAKENROOSTER = "takenrooster.xlsx"
 TODAY = dt.datetime(2026,9,7)
 
 def create_message(today):
