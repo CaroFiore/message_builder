@@ -1,11 +1,17 @@
 import openpyxl as xl
 import datetime as dt
 import pyperclip as clipboard
+from datetime import datetime
 
 TAKENROOSTER = "takenrooster.xlsx"
-TODAY = dt.datetime(2026,11,16)
+TODAY = dt.datetime(2026,12,11)
 
-def create_message(today):
+def create_message(today = datetime.now()):
+    '''
+        creates and copies to clipboard a nice whatsapp message to send around.
+        takes an argument "today" which can be changed for testing.
+    
+    '''
     xlfile = xl.load_workbook(TAKENROOSTER)
     sheet = xlfile.active
 
