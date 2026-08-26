@@ -3,7 +3,7 @@ import datetime as dt
 import pyperclip as clipboard
 
 TAKENROOSTER = "takenrooster.xlsx"
-TODAY = dt.datetime(2026,9,7)
+TODAY = dt.datetime(2026,11,16)
 
 def create_message(today):
     xlfile = xl.load_workbook(TAKENROOSTER)
@@ -52,6 +52,7 @@ def create_message(today):
         print("No tasks found, quitting..")
         return []
 
+    # Sort these days by name
     day_order = {
         "Monday": 0,
         "Tuesday": 1,
@@ -64,7 +65,18 @@ def create_message(today):
 
     date_groups = set(task["dag"] for task in tasks)
 
-    date_groups = sorted(date_groups, key=lambda day: day_order[day])
+    date_groups = sorted(date_groups, key = lambda day: day_order[day])
+
+    day_translate = {
+        "Monday" : "Maandag",
+        "Tuesday" : "Dinsdag",
+        "Wednesday" : "Woensdag",
+        "Thursday" : "Donderdag",
+        "Friday" : "Vrijdag",
+        "Saturday" : "Zaterdag",
+        "Sunday" : "Zondag"
+    }
+
 
     # Group by day. Don't bother comprehending. Point is that we get a list like this:
     # day1 : [tasks], day2 : [tasks]
@@ -85,7 +97,7 @@ def create_message(today):
     
     for day in day_schedule:
         lines.append("-" * 50)
-        lines.append(f"{day}:")
+        lines.append(f"{day_translate[day]}:")
 
         for task in day_schedule[day]:
             team = f" bij {task['thuisteam'].lower()}" if task["thuisteam"] else ""
