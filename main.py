@@ -7,7 +7,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 DATA_DIR = PROJECT_ROOT / "data"
 TAKENROOSTER = DATA_DIR / "takenrooster.xlsx"
-TODAY = dt.datetime(2026,2,25)
+TODAY = dt.datetime(2026,9,7)
 
 def create_message(today):
     xlfile = xl.load_workbook(TAKENROOSTER)
@@ -48,15 +48,27 @@ def create_message(today):
             else:
                 task["ingedeeld"] = "(Nog) niet ingedeeld, oeps.."
 
+            task["opmerking"] = match["opmerking"]
+
             tasks.append(task)
 
     if not tasks:
         print("No tasks found, quitting..")
         return []
 
-    # Find unique days
+    day_order = {
+        "Monday": 0,
+        "Tuesday": 1,
+        "Wednesday": 2,
+        "Thursday": 3,
+        "Friday": 4,
+        "Saturday": 5,
+        "Sunday": 6
+    }   
+
     date_groups = set(task["dag"] for task in tasks)
-    print(date_groups)
+
+    date_groups = sorted(date_groups, key=lambda day: day_order[day])
 
     # Group by day. Don't bother comprehending. Point is that we get a list like this:
     # day1 : [tasks], day2 : [tasks]
@@ -70,6 +82,7 @@ def create_message(today):
         day_schedule[day] = day_list
     print(day_schedule)
 
+
     # Okay, lets make a message now shall we
     lines = []
     lines.append(f"Goeiemorgen, dit is een automatisch bericht! Het is vandaag {today.strftime('%d-%m-%Y')}.")
@@ -80,6 +93,10 @@ def create_message(today):
 
         for task in day_schedule[day]:
             team = f" bij {task['thuisteam'].lower()}" if task["thuisteam"] else ""
+
+            if task["taaksoort"] == "zaalwacht":
+                task["taaksoort"] = "Zaalwacht " + task["opmerking"]
+                task["start"] = ""
 
             lines.append(
                 f"{task['start']} "
