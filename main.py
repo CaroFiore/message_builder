@@ -13,23 +13,22 @@ def create_message(today = datetime.now()):
         takes an argument "today" which can be changed for testing.
     
     '''
-
-    infile = None
     directory = os.path.dirname(os.path.abspath(__file__))
-    print(directory)
     for file in os.listdir(directory):
         print(file)
         if file.endswith(".xlsx"):
-            print(f"File found: {file}")
             infile = file
             break
     else:
+        infile = None
         raise Exception("No .xlsx file found")
-    
+
     
     xlfile = xl.load_workbook(infile)
     sheet = xlfile.active
-
+    if not sheet:
+        raise Exception("This xlsx file has no worksheet. Is it empty?")
+    
     # Idk why but I don't want to bother with it. Anyway you get a list of tuples
     _data = list(sheet.iter_rows(values_only=True))
     data = []
@@ -85,7 +84,7 @@ def create_message(today = datetime.now()):
     }   
 
     date_groups = set(task["dag"] for task in tasks)
-
+    print(date_groups)
     date_groups = sorted(date_groups, key = lambda day: day_order[day])
 
     day_translate = {
