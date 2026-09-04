@@ -2,9 +2,10 @@ import openpyxl as xl
 import datetime as dt
 import pyperclip as clipboard
 from datetime import datetime
+import os
 
-TAKENROOSTER = "takenrooster.xlsx"
-TODAY = dt.datetime(2026,12,11)
+
+TODAY = dt.datetime.now()
 
 def create_message(today = datetime.now()):
     '''
@@ -12,7 +13,22 @@ def create_message(today = datetime.now()):
         takes an argument "today" which can be changed for testing.
     
     '''
-    xlfile = xl.load_workbook(TAKENROOSTER)
+
+    infile = None
+    directory = os.path.dirname(os.path.abspath(__file__))
+    print(directory)
+    for file in os.listdir(directory):
+        print(file)
+        if file.endswith(".xlsx"):
+            print(f"File found: {file}")
+            infile = file
+            break
+
+    if not infile:
+        raise Exception("No xlsx file found")
+        
+    
+    xlfile = xl.load_workbook(infile)
     sheet = xlfile.active
 
     # Idk why but I don't want to bother with it. Anyway you get a list of tuples
