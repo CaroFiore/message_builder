@@ -23,10 +23,9 @@ def create_message(today = datetime.now()):
             print(f"File found: {file}")
             infile = file
             break
-
-    if not infile:
-        raise Exception("No xlsx file found")
-        
+    else:
+        raise Exception("No .xlsx file found")
+    
     
     xlfile = xl.load_workbook(infile)
     sheet = xlfile.active
