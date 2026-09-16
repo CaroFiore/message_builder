@@ -13,3 +13,5 @@ INSTALLATIE & GEBRUIK:
 4. Activeer de virtual environment in je command line
 5. Installeer de dependencies met pip install -r requirements.txt
 6. Run main.py met python. Dit kopieert het bericht naar je clipboard.
+> Gebruik -d of --date als optioneel argument als je een datum wil forceren.
+> Bijvoorbeeld: "python main.py -d 2026-09-22"
