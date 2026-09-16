@@ -1,12 +1,12 @@
-DUTCH
+#### DUTCH
 Dit is een klein scriptje die een whatsapp-berichtje maakt op basis van een takenrooster. 
 Takenrooster gebouwd door Bas!
 
-ENGLISH
+#### ENGLISH
 This is a small script for creating a whatsapp-message based on a task roster.
 It's likely you don't need this. You should probably go somewhere else.
 
-INSTALLATIE & GEBRUIK:
+### INSTALLATIE & GEBRUIK:
 1. Je moet een installatie van Python hebben
 2. In de command line, clone de repository (zoek op hoe)
 3. Maak een virtual environment aan in de repository (optioneel maar wel handig)
