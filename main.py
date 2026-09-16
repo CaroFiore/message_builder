@@ -3,9 +3,21 @@ import datetime as dt
 import pyperclip as clipboard
 from datetime import datetime
 import os
+import argparse
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument(
+    "-d",
+    "--date",
+    type= str,
+    help = "Optionally specify a date manually with format YYYY-MM-DD"
+)
+
+arguments = parser.parse_args()
 
 
-TODAY = dt.datetime.now()
+
 
 def create_message(today = datetime.now()):
     '''
@@ -15,7 +27,6 @@ def create_message(today = datetime.now()):
     '''
     directory = os.path.dirname(os.path.abspath(__file__))
     for file in os.listdir(directory):
-        print(file)
         if file.endswith(".xlsx"):
             infile = file
             break
@@ -137,9 +148,16 @@ def create_message(today = datetime.now()):
 
     return lines
 
+def argument_to_date(date_string):
+    return datetime.strptime(date_string, "%Y-%m-%d")
+
+
 if __name__ == "__main__":
+    # Handle optional -d argument
+    today = dt.datetime.now() if not arguments.date else argument_to_date(arguments.date)
+    
     message_to_copy = ""
-    for line in create_message(TODAY):
+    for line in create_message(today):
         message_to_copy += line + "\n"
 
     print(message_to_copy)
