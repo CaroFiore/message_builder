@@ -16,9 +16,6 @@ parser.add_argument(
 
 arguments = parser.parse_args()
 
-
-
-
 def create_message(today = datetime.now()):
     '''
         creates and copies to clipboard a nice whatsapp message to send around.
